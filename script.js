@@ -1,11 +1,12 @@
 // Firebase Configuration (আপনার ফায়ারবেজ থেকে কনফিগ কপি করুন)
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT.appspot.com",
-    messagingSenderId: "YOUR_ID",
-    appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyCZ3x4d_VDdlh1D0uiZHQhJBR_y1qd63GI",
+  authDomain: "help-portal-affdb.firebaseapp.com",
+  projectId: "help-portal-affdb",
+  storageBucket: "help-portal-affdb.firebasestorage.app",
+  messagingSenderId: "658170191843",
+  appId: "1:658170191843:web:c81998a37acffdfe07cad6",
+  measurementId: "G-WHCTK7ZN99"
 };
 
 // Initialize Firebase
