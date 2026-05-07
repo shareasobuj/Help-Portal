@@ -3,77 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HelpHub | ১০০% কার্যকর সাহায্য কেন্দ্র</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;600;700&display=swap');
-        body { font-family: 'Hind Siliguri', sans-serif; }
-        .hidden-section { display: none; }
-    </style>
+    <title>সহায়তা প্ল্যাটফর্ম | দাতা ও গ্রহীতা</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-gray-100">
+<body>
 
-    <nav class="bg-blue-600 text-white shadow-lg sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="text-2xl font-bold flex items-center gap-2 cursor-pointer" onclick="showPage('homePage')">
-                <i class="fas fa-hand-holding-heart"></i> HelpHub
-            </div>
-            <div class="flex items-center gap-4">
-                <span id="visitorDisplay" class="bg-blue-800 px-3 py-1 rounded-full text-xs">ভিজিটর: ০</span>
-                <div id="navAuthLinks">
-                    </div>
-            </div>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">সেবা ও সাহায্য</div>
+        <div class="auth-buttons">
+            <button id="loginBtn" onclick="signInWithGoogle()">গুগল দিয়ে লগইন</button>
+            <button id="logoutBtn" style="display:none;" onclick="logOut()">লগআউট</button>
         </div>
     </nav>
 
-    <section id="homePage" class="page-section py-20 text-center bg-white">
-        <h1 class="text-5xl font-bold text-gray-800 mb-6">মানুষ মানুষের জন্য</h1>
-        <p class="text-xl text-gray-600 mb-10">আপনার একটি ছোট দান কারো জীবনের বড় পরিবর্তন আনতে পারে।</p>
-        <button onclick="showPage('loginPage')" class="bg-blue-600 text-white px-8 py-3 rounded-full font-bold text-lg hover:bg-blue-700 transition">এখনই শুরু করুন</button>
-    </section>
+    <div class="container">
+        <!-- Sidebar Menu -->
+        <aside>
+            <ul id="menu">
+                <li onclick="showPage('home')">হোম পেজ</li>
+                <li onclick="showPage('dashboard')">ড্যাশবোর্ড</li>
+                <li onclick="showPage('food')">খাদ্য সাহায্য</li>
+                <li onclick="showPage('cloth')">বস্ত্র সাহায্য</li>
+                <li onclick="showPage('shelter')">বাসস্থান</li>
+                <li onclick="showPage('cash')">নগদ অর্থ</li>
+                <li onclick="showPage('donor-list')">দাতার তালিকা</li>
+                <li onclick="showPage('receiver-list')">গ্রহীতার তালিকা</li>
+                <li onclick="showPage('about')">আমাদের সম্পর্কে</li>
+                <li onclick="showPage('contact')">যোগাযোগ</li>
+            </ul>
+        </aside>
 
-    <section id="loginPage" class="page-section hidden-section py-10">
-        <div class="max-w-md mx-auto bg-white p-8 rounded-2xl shadow-2xl">
-            <h2 class="text-2xl font-bold mb-6 text-center text-blue-600">অ্যাকাউন্টে প্রবেশ করুন</h2>
-            <div class="space-y-4">
-                <button onclick="handleGoogleLogin()" class="w-full border py-3 rounded-xl flex justify-center items-center gap-3 hover:bg-gray-50 transition">
-                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/action/google.svg" width="20"> গুগল দিয়ে লগইন করুন
-                </button>
-                <p class="text-center text-gray-400">বা সরাসরি ড্যাশবোর্ড দেখুন</p>
-            </div>
-        </div>
-    </section>
+        <!-- Main Content Area -->
+        <main id="content">
+            <!-- Home Page -->
+            <section id="home" class="page active">
+                <h1>স্বাগতম</h1>
+                <p>মানবতার সেবায় এগিয়ে আসুন। এখানে আপনি সাহায্য দিতে বা নিতে পারেন।</p>
+                <div class="hero-img"></div>
+            </section>
 
-    <section id="dashboardPage" class="page-section hidden-section py-8 max-w-6xl mx-auto px-4">
-        <div class="grid md:grid-cols-3 gap-8">
-            <div class="bg-white p-6 rounded-2xl shadow h-fit">
-                <h3 class="text-xl font-bold mb-4">নতুন পোস্ট</h3>
-                <select id="postType" class="w-full p-3 border rounded-xl mb-4 outline-none">
-                    <option value="donor">আমি সাহায্য দিতে চাই (Donor)</option>
-                    <option value="receiver">আমার সাহায্য প্রয়োজন (Receiver)</option>
-                </select>
-                <textarea id="postMsg" rows="4" class="w-full p-3 border rounded-xl mb-4 outline-none" placeholder="আপনার বিস্তারিত লিখুন..."></textarea>
-                <button onclick="submitPost()" class="w-full bg-green-600 text-white py-3 rounded-xl font-bold hover:bg-green-700 transition">পোস্ট করুন</button>
-            </div>
+            <!-- Dashboard -->
+            <section id="dashboard" class="page">
+                <h1>ইউজার ড্যাশবোর্ড</h1>
+                <div id="userInfo">লগইন করুন আপনার তথ্য দেখতে।</div>
+                <hr>
+                <h3>সাহায্যের জন্য আবেদন করুন</h3>
+                <form id="requestForm">
+                    <input type="text" id="itemName" placeholder="কি প্রয়োজন? (যেমন: খাদ্য/অর্থ)" required>
+                    <textarea id="reason" placeholder="কেন প্রয়োজন লিখুন..." required></textarea>
+                    <button type="submit">আবেদন জমা দিন</button>
+                </form>
+            </section>
 
-            <div class="md:col-span-2">
-                <div id="postFeed" class="space-y-4">
-                    </div>
-            </div>
-        </div>
-    </section>
+            <!-- Other pages will follow the same structure -->
+            <section id="food" class="page"><h1>খাদ্য সাহায্য বিভাগ</h1><p>এখানে খাবারের আবেদন ও তালিকা দেখা যাবে।</p></section>
+            <section id="cloth" class="page"><h1>বস্ত্র সাহায্য বিভাগ</h1></section>
+            <section id="shelter" class="page"><h1>বাসস্থান সহায়তা</h1></section>
+            <section id="cash" class="page"><h1>নগদ অর্থ সহায়তা</h1></section>
+            <section id="donor-list" class="page"><h1>সম্মানিত দাতা বৃন্দ</h1></section>
+            <section id="receiver-list" class="page"><h1>আবেদনকারীদের তালিকা</h1></section>
+            <section id="about" class="page"><h1>আমাদের লক্ষ্য</h1></section>
+            <section id="contact" class="page"><h1>যোগাযোগ করুন</h1></section>
+        </main>
+    </div>
 
-    <script type="module" src="app.js"></script>
-    <script>
-        // পেজ পরিবর্তন করার ফাংশন
-        function showPage(pageId) {
-            document.querySelectorAll('.page-section').forEach(section => {
-                section.classList.add('hidden-section');
-            });
-            document.getElementById(pageId).classList.remove('hidden-section');
-        }
-        window.showPage = showPage;
-    </script>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
