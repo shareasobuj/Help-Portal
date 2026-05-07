@@ -1,115 +1,95 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, doc, updateDoc, increment, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, doc, setDoc, increment, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// ফায়ারবেজ কনফিগারেশন (আপনার কনসোল থেকে সংগ্রহ করুন)
+// ফায়ারবেজ কনফিগ (আপনার প্রজেক্ট সেটিংস থেকে বসান)
 const firebaseConfig = {
-      apiKey: "AIzaSyCZ3x4d_VDdlh1D0uiZHQhJBR_y1qd63GI",
-  authDomain: "help-portal-affdb.firebaseapp.com",
-  databaseURL: "https://help-portal-affdb-default-rtdb.firebaseio.com",
-  projectId: "help-portal-affdb",
-  storageBucket: "help-portal-affdb.firebasestorage.app",
-  messagingSenderId: "658170191843",
-  appId: "1:658170191843:web:c81998a37acffdfe07cad6",
-  measurementId: "G-WHCTK7ZN99"
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_AUTH_DOMAIN",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_STORAGE_BUCKET",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
 };
-// Initialize Firebase
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
 
-// ১. ভিজিটর কাউন্টার (Firestore ভিত্তিক)
-async function handleVisitors() {
-    const vRef = doc(db, "stats", "visitors");
+// ১. ভিজিটর কাউন্টার লজিক
+const updateVisitors = async () => {
+    const vRef = doc(db, "siteStats", "visitors");
     await setDoc(vRef, { count: increment(1) }, { merge: true });
     const snap = await getDoc(vRef);
-    document.getElementById('vCount').innerText = snap.data().count || 1;
-}
-handleVisitors();
+    document.getElementById('visitorDisplay').innerText = `ভিজিটর: ${snap.data().count}`;
+};
+updateVisitors();
 
-// ২. লগইন ও অথেনটিকেশন লজিক
-const loginBtn = document.getElementById('loginBtn');
-loginBtn.onclick = () => {
-    if (auth.currentUser) {
-        signOut(auth);
-    } else {
-        signInWithPopup(auth, provider);
-    }
+// ২. গুগল লগইন ফাংশন
+window.handleGoogleLogin = () => {
+    signInWithPopup(auth, provider)
+        .then(() => window.showPage('dashboardPage'))
+        .catch(err => alert("Error: " + err.message));
 };
 
+// ৩. লগআউট
+window.handleLogout = () => {
+    signOut(auth).then(() => location.reload());
+};
+
+// ৪. ইউজার স্টেট পরিবর্তন পর্যবেক্ষণ
 onAuthStateChanged(auth, (user) => {
+    const navAuth = document.getElementById('navAuthLinks');
     if (user) {
-        loginBtn.innerText = "লগআউট";
-        document.getElementById('uID').innerText = user.uid.substring(0, 12);
-        document.getElementById('userInfo').classList.remove('hidden');
+        navAuth.innerHTML = `<button onclick="handleLogout()" class="bg-red-500 px-4 py-1 rounded-lg">লগআউট</button>`;
+        window.showPage('dashboardPage');
     } else {
-        loginBtn.innerText = "লগইন";
-        document.getElementById('userInfo').classList.add('hidden');
+        navAuth.innerHTML = `<button onclick="showPage('loginPage')" class="bg-green-500 px-4 py-1 rounded-lg">লগইন</button>`;
     }
 });
 
-// ৩. ডাটা সেভ করা (পোস্ট তৈরি)
-window.saveData = async () => {
+// ৫. পোস্ট সাবমিট করা
+window.submitPost = async () => {
     const user = auth.currentUser;
-    if (!user) return alert("দয়া করে আগে লগইন করুন!");
+    if (!user) return alert("আগে লগইন করুন!");
 
-    const desc = document.getElementById('helpDesc').value;
-    const type = document.getElementById('userType').value;
+    const msg = document.getElementById('postMsg').value;
+    const type = document.getElementById('postType').value;
 
-    if (desc.trim() === "") return alert("বিস্তারিত কিছু লিখুন!");
+    if (!msg.trim()) return alert("বার্তা লিখুন!");
 
     try {
         await addDoc(collection(db, "posts"), {
             uid: user.uid,
             name: user.displayName,
-            email: user.email,
             type: type,
-            message: desc,
-            timestamp: serverTimestamp()
+            message: msg,
+            time: serverTimestamp()
         });
-        document.getElementById('helpDesc').value = "";
-        alert("আপনার পোস্টটি সফলভাবে প্রকাশ করা হয়েছে!");
+        document.getElementById('postMsg').value = "";
+        alert("পোস্ট সফল হয়েছে!");
     } catch (e) {
-        console.error("Error: ", e);
+        alert("এরর: " + e.message);
     }
 };
 
-// ৪. ডায়নামিক ফিড লোডিং (Real-time)
-const loadFeed = (filterType = 'all') => {
-    const q = query(collection(db, "posts"), orderBy("timestamp", "desc"));
-    onSnapshot(q, (snapshot) => {
-        const feed = document.getElementById('feed');
-        feed.innerHTML = "";
-        snapshot.forEach((doc) => {
-            const data = doc.data();
-            if (filterType !== 'all' && data.type !== filterType) return;
-
-            const isDonor = data.type === 'donor';
-            const cardUI = `
-                <div class="bg-white p-5 rounded-xl border-l-4 ${isDonor ? 'border-green-500 shadow-green-50' : 'border-red-500 shadow-red-50'} shadow-md transition hover:shadow-lg">
-                    <div class="flex justify-between items-start mb-3">
-                        <div>
-                            <h4 class="font-bold text-gray-800">${data.name}</h4>
-                            <span class="text-xs font-mono text-gray-400">ID: ${data.uid.substring(0, 10)}</span>
-                        </div>
-                        <span class="px-3 py-1 rounded-full text-xs font-bold uppercase ${isDonor ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}">
-                            ${isDonor ? 'দাতা' : 'গ্রহীতা'}
-                        </span>
-                    </div>
-                    <p class="text-gray-700 leading-relaxed mb-4">${data.message}</p>
-                    <div class="flex justify-between items-center text-sm">
-                        <span class="text-gray-400 italic font-light">${data.timestamp?.toDate().toLocaleTimeString() || 'এখনই'}</span>
-                        <a href="mailto:${data.email}" class="text-blue-600 font-bold hover:underline">যোগাযোগ করুন &rarr;</a>
-                    </div>
+// ৬. রিয়েল-টাইম ফিড লোড করা
+const q = query(collection(db, "posts"), orderBy("time", "desc"));
+onSnapshot(q, (snapshot) => {
+    const feed = document.getElementById('postFeed');
+    feed.innerHTML = "";
+    snapshot.forEach(doc => {
+        const data = doc.data();
+        const color = data.type === 'donor' ? 'border-green-500' : 'border-red-500';
+        feed.innerHTML += `
+            <div class="bg-white p-5 rounded-xl shadow border-l-4 ${color}">
+                <div class="flex justify-between font-bold text-blue-600 mb-2">
+                    <span>${data.name}</span>
+                    <span class="text-xs bg-gray-100 px-2 py-1 rounded">${data.type === 'donor' ? 'দাতা' : 'গ্রহীতা'}</span>
                 </div>
-            `;
-            feed.innerHTML += cardUI;
-        });
+                <p class="text-gray-700">${data.message}</p>
+            </div>
+        `;
     });
-};
-
-loadFeed();
-
-// ফিল্টারিং ফাংশন
-window.filterPosts = (type) => loadFeed(type);
+});
