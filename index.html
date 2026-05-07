@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>সাহায্য কেন্দ্র | Help Portal</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">সাহায্য কেন্দ্র</div>
+        <ul id="nav-links">
+            <li><a href="#home">হোম</a></li>
+            <li><a href="#requests">আবেদনসমূহ</a></li>
+            <li id="auth-btn"><button onclick="showModal('login-modal')">লগইন</button></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="home">
+        <h1>মানুষ মানুষের জন্য</h1>
+        <p>আপনার সামান্য সাহায্য কারো জীবন বদলে দিতে পারে।</p>
+        <div class="stats">
+            <span id="visitor-count">ভিজিটর সংখ্যা: ০</span>
+        </div>
+    </header>
+
+    <!-- Request Form (Visible to Users) -->
+    <section id="form-section" class="hidden">
+        <h2>সাহায্যের জন্য আবেদন / সাহায্য প্রদান</h2>
+        <form id="help-form">
+            <input type="text" id="user-id" placeholder="আপনার আইডি" required readonly>
+            <textarea id="message" placeholder="আপনার বার্তা লিখুন..." required></textarea>
+            <select id="type">
+                <option value="donor">আমি সাহায্য করতে চাই</option>
+                <option value="receiver">আমার সাহায্য প্রয়োজন</option>
+            </select>
+            <button type="submit">জমা দিন</button>
+        </form>
+    </section>
+
+    <!-- Data Display -->
+    <section id="requests">
+        <h2>সাম্প্রতিক কার্যক্রম</h2>
+        <div id="data-list">
+            <!-- ডায়নামিক ডাটা এখানে আসবে -->
+        </div>
+    </section>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <h3>লগইন করুন</h3>
+            <input type="email" id="email" placeholder="ইমেইল">
+            <input type="password" id="password" placeholder="পাসওয়ার্ড">
+            <button onclick="handleLogin()">প্রবেশ করুন</button>
+            <p onclick="toggleRegister()">অ্যাকাউন্ট নেই? রেজিস্ট্রেশন করুন</p>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-firestore-compat.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
