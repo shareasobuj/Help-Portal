@@ -4,8 +4,9 @@ import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTim
 
 // ফায়ারবেজ কনফিগারেশন (আপনার কনসোল থেকে সংগ্রহ করুন)
 const firebaseConfig = {
-    apiKey: "AIzaSyCZ3x4d_VDdlh1D0uiZHQhJBR_y1qd63GI",
+      apiKey: "AIzaSyCZ3x4d_VDdlh1D0uiZHQhJBR_y1qd63GI",
   authDomain: "help-portal-affdb.firebaseapp.com",
+  databaseURL: "https://help-portal-affdb-default-rtdb.firebaseio.com",
   projectId: "help-portal-affdb",
   storageBucket: "help-portal-affdb.firebasestorage.app",
   messagingSenderId: "658170191843",
