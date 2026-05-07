@@ -3,94 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HelpHub | সাহায্য কেন্দ্র</title>
+    <title>HelpHub | ১০০% কার্যকর সাহায্য কেন্দ্র</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;600;700&display=swap');
-        body { font-family: 'Hind Siliguri', sans-serif; background-color: #f8fafc; }
-        .glass-nav { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); }
+        body { font-family: 'Hind Siliguri', sans-serif; }
+        .hidden-section { display: none; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="bg-gray-100">
 
-    <!-- Navigation -->
-    <nav class="glass-nav sticky top-0 z-50 border-b border-gray-200">
+    <nav class="bg-blue-600 text-white shadow-lg sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="text-2xl font-bold text-blue-600 flex items-center gap-2">
+            <div class="text-2xl font-bold flex items-center gap-2 cursor-pointer" onclick="showPage('homePage')">
                 <i class="fas fa-hand-holding-heart"></i> HelpHub
             </div>
             <div class="flex items-center gap-4">
-                <span class="text-sm bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-bold">
-                    <i class="fas fa-eye"></i> ভিজিটর: <span id="vCount">০</span>
-                </span>
-                <button id="loginBtn" class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">লগইন</button>
+                <span id="visitorDisplay" class="bg-blue-800 px-3 py-1 rounded-full text-xs">ভিজিটর: ০</span>
+                <div id="navAuthLinks">
+                    </div>
             </div>
         </div>
     </nav>
 
-    <!-- Header Section -->
-    <header class="py-16 bg-gradient-to-br from-blue-700 to-indigo-800 text-white text-center">
-        <div class="max-w-4xl mx-auto px-4">
-            <h1 class="text-4xl md:text-5xl font-bold mb-4">মানুষ মানুষের জন্য</h1>
-            <p class="text-lg opacity-90">আপনার একটি ছোট পদক্ষেপ কারো মুখে হাসি ফোটাতে পারে। আজই যোগ দিন।</p>
-        </div>
-    </header>
+    <section id="homePage" class="page-section py-20 text-center bg-white">
+        <h1 class="text-5xl font-bold text-gray-800 mb-6">মানুষ মানুষের জন্য</h1>
+        <p class="text-xl text-gray-600 mb-10">আপনার একটি ছোট দান কারো জীবনের বড় পরিবর্তন আনতে পারে।</p>
+        <button onclick="showPage('loginPage')" class="bg-blue-600 text-white px-8 py-3 rounded-full font-bold text-lg hover:bg-blue-700 transition">এখনই শুরু করুন</button>
+    </section>
 
-    <!-- App Content -->
-    <main class="max-w-6xl mx-auto px-4 -mt-12">
-        <div class="grid lg:grid-cols-3 gap-8">
-            
-            <!-- Input Card -->
-            <div class="bg-white p-6 rounded-2xl shadow-xl border border-gray-100 h-fit">
-                <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
-                    <i class="fas fa-plus-circle text-blue-500"></i> পোস্ট তৈরি করুন
-                </h3>
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-600 mb-1">আপনার ভূমিকা</label>
-                        <select id="userType" class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none">
-                            <option value="donor">আমি সাহায্য করতে চাই (Donor)</option>
-                            <option value="receiver">আমার সাহায্য প্রয়োজন (Receiver)</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-600 mb-1">বিস্তারিত বর্ণনা</label>
-                        <textarea id="helpDesc" rows="4" class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none" placeholder="আপনার কথাগুলো লিখুন..."></textarea>
-                    </div>
-                    <button onclick="saveData()"> পোস্ট করুন</button>
-                </div>
-                <hr class="my-6">
-                <div id="userInfo" class="hidden text-sm">
-                    <p class="text-gray-500">লগইন আইডি: <span id="uID" class="font-mono text-blue-600"></span></p>
-                </div>
+    <section id="loginPage" class="page-section hidden-section py-10">
+        <div class="max-w-md mx-auto bg-white p-8 rounded-2xl shadow-2xl">
+            <h2 class="text-2xl font-bold mb-6 text-center text-blue-600">অ্যাকাউন্টে প্রবেশ করুন</h2>
+            <div class="space-y-4">
+                <button onclick="handleGoogleLogin()" class="w-full border py-3 rounded-xl flex justify-center items-center gap-3 hover:bg-gray-50 transition">
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/action/google.svg" width="20"> গুগল দিয়ে লগইন করুন
+                </button>
+                <p class="text-center text-gray-400">বা সরাসরি ড্যাশবোর্ড দেখুন</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="dashboardPage" class="page-section hidden-section py-8 max-w-6xl mx-auto px-4">
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="bg-white p-6 rounded-2xl shadow h-fit">
+                <h3 class="text-xl font-bold mb-4">নতুন পোস্ট</h3>
+                <select id="postType" class="w-full p-3 border rounded-xl mb-4 outline-none">
+                    <option value="donor">আমি সাহায্য দিতে চাই (Donor)</option>
+                    <option value="receiver">আমার সাহায্য প্রয়োজন (Receiver)</option>
+                </select>
+                <textarea id="postMsg" rows="4" class="w-full p-3 border rounded-xl mb-4 outline-none" placeholder="আপনার বিস্তারিত লিখুন..."></textarea>
+                <button onclick="submitPost()" class="w-full bg-green-600 text-white py-3 rounded-xl font-bold hover:bg-green-700 transition">পোস্ট করুন</button>
             </div>
 
-            <!-- Feed Section -->
-            <div class="lg:col-span-2">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-bold">সাম্প্রতিক কার্যক্রম</h2>
-                    <div class="flex gap-2">
-                        <button onclick="filterPosts('all')" class="px-3 py-1 bg-gray-200 rounded-md text-sm hover:bg-gray-300">সব</button>
-                        <button onclick="filterPosts('donor')" class="px-3 py-1 bg-green-100 text-green-700 rounded-md text-sm hover:bg-green-200">দাতা</button>
-                        <button onclick="filterPosts('receiver')" class="px-3 py-1 bg-red-100 text-red-700 rounded-md text-sm hover:bg-red-200">গ্রহীতা</button>
+            <div class="md:col-span-2">
+                <div id="postFeed" class="space-y-4">
                     </div>
-                </div>
-                <div id="feed" class="space-y-4">
-                    <!-- Dynamic Data Loading -->
-                    <div class="text-center py-10 text-gray-400">অপেক্ষা করুন... ডাটা লোড হচ্ছে...</div>
-                </div>
             </div>
-
         </div>
-    </main>
+    </section>
 
-    <!-- Admin Panel Trigger (Only for Owner) -->
-    <button id="adminBtn" class="hidden fixed bottom-6 right-6 bg-gray-900 text-white p-4 rounded-full shadow-2xl hover:bg-black transition">
-        <i class="fas fa-user-shield text-xl"></i>
-    </button>
-
-    <!-- Firebase SDKs (v10+ Modular) -->
     <script type="module" src="app.js"></script>
+    <script>
+        // পেজ পরিবর্তন করার ফাংশন
+        function showPage(pageId) {
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.add('hidden-section');
+            });
+            document.getElementById(pageId).classList.remove('hidden-section');
+        }
+        window.showPage = showPage;
+    </script>
 </body>
 </html>
