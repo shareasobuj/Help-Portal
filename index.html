@@ -3,68 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>সাহায্য কেন্দ্র | Help Portal</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <title>HelpHub | সাহায্য কেন্দ্র</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;600;700&display=swap');
+        body { font-family: 'Hind Siliguri', sans-serif; background-color: #f8fafc; }
+        .glass-nav { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); }
+    </style>
 </head>
-<body>
+<body class="bg-gray-50 text-gray-800">
 
     <!-- Navigation -->
-    <nav>
-        <div class="logo">সাহায্য কেন্দ্র</div>
-        <ul id="nav-links">
-            <li><a href="#home">হোম</a></li>
-            <li><a href="#requests">আবেদনসমূহ</a></li>
-            <li id="auth-btn"><button onclick="showModal('login-modal')">লগইন</button></li>
-        </ul>
+    <nav class="glass-nav sticky top-0 z-50 border-b border-gray-200">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="text-2xl font-bold text-blue-600 flex items-center gap-2">
+                <i class="fas fa-hand-holding-heart"></i> HelpHub
+            </div>
+            <div class="flex items-center gap-4">
+                <span class="text-sm bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-bold">
+                    <i class="fas fa-eye"></i> ভিজিটর: <span id="vCount">০</span>
+                </span>
+                <button id="loginBtn" class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">লগইন</button>
+            </div>
+        </div>
     </nav>
 
-    <!-- Hero Section -->
-    <header id="home">
-        <h1>মানুষ মানুষের জন্য</h1>
-        <p>আপনার সামান্য সাহায্য কারো জীবন বদলে দিতে পারে।</p>
-        <div class="stats">
-            <span id="visitor-count">ভিজিটর সংখ্যা: ০</span>
+    <!-- Header Section -->
+    <header class="py-16 bg-gradient-to-br from-blue-700 to-indigo-800 text-white text-center">
+        <div class="max-w-4xl mx-auto px-4">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">মানুষ মানুষের জন্য</h1>
+            <p class="text-lg opacity-90">আপনার একটি ছোট পদক্ষেপ কারো মুখে হাসি ফোটাতে পারে। আজই যোগ দিন।</p>
         </div>
     </header>
 
-    <!-- Request Form (Visible to Users) -->
-    <section id="form-section" class="hidden">
-        <h2>সাহায্যের জন্য আবেদন / সাহায্য প্রদান</h2>
-        <form id="help-form">
-            <input type="text" id="user-id" placeholder="আপনার আইডি" required readonly>
-            <textarea id="message" placeholder="আপনার বার্তা লিখুন..." required></textarea>
-            <select id="type">
-                <option value="donor">আমি সাহায্য করতে চাই</option>
-                <option value="receiver">আমার সাহায্য প্রয়োজন</option>
-            </select>
-            <button type="submit">জমা দিন</button>
-        </form>
-    </section>
+    <!-- App Content -->
+    <main class="max-w-6xl mx-auto px-4 -mt-12">
+        <div class="grid lg:grid-cols-3 gap-8">
+            
+            <!-- Input Card -->
+            <div class="bg-white p-6 rounded-2xl shadow-xl border border-gray-100 h-fit">
+                <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                    <i class="fas fa-plus-circle text-blue-500"></i> পোস্ট তৈরি করুন
+                </h3>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-600 mb-1">আপনার ভূমিকা</label>
+                        <select id="userType" class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none">
+                            <option value="donor">আমি সাহায্য করতে চাই (Donor)</option>
+                            <option value="receiver">আমার সাহায্য প্রয়োজন (Receiver)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-600 mb-1">বিস্তারিত বর্ণনা</label>
+                        <textarea id="helpDesc" rows="4" class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-blue-500 outline-none" placeholder="আপনার কথাগুলো লিখুন..."></textarea>
+                    </div>
+                    <button onclick="saveData()" class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold hover:shadow-lg transition transform active:scale-95">
+                        পোস্ট করুন
+                    </button>
+                </div>
+                <hr class="my-6">
+                <div id="userInfo" class="hidden text-sm">
+                    <p class="text-gray-500">লগইন আইডি: <span id="uID" class="font-mono text-blue-600"></span></p>
+                </div>
+            </div>
 
-    <!-- Data Display -->
-    <section id="requests">
-        <h2>সাম্প্রতিক কার্যক্রম</h2>
-        <div id="data-list">
-            <!-- ডায়নামিক ডাটা এখানে আসবে -->
+            <!-- Feed Section -->
+            <div class="lg:col-span-2">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold">সাম্প্রতিক কার্যক্রম</h2>
+                    <div class="flex gap-2">
+                        <button onclick="filterPosts('all')" class="px-3 py-1 bg-gray-200 rounded-md text-sm hover:bg-gray-300">সব</button>
+                        <button onclick="filterPosts('donor')" class="px-3 py-1 bg-green-100 text-green-700 rounded-md text-sm hover:bg-green-200">দাতা</button>
+                        <button onclick="filterPosts('receiver')" class="px-3 py-1 bg-red-100 text-red-700 rounded-md text-sm hover:bg-red-200">গ্রহীতা</button>
+                    </div>
+                </div>
+                <div id="feed" class="space-y-4">
+                    <!-- Dynamic Data Loading -->
+                    <div class="text-center py-10 text-gray-400">অপেক্ষা করুন... ডাটা লোড হচ্ছে...</div>
+                </div>
+            </div>
+
         </div>
-    </section>
+    </main>
 
-    <!-- Login Modal -->
-    <div id="login-modal" class="modal">
-        <div class="modal-content">
-            <h3>লগইন করুন</h3>
-            <input type="email" id="email" placeholder="ইমেইল">
-            <input type="password" id="password" placeholder="পাসওয়ার্ড">
-            <button onclick="handleLogin()">প্রবেশ করুন</button>
-            <p onclick="toggleRegister()">অ্যাকাউন্ট নেই? রেজিস্ট্রেশন করুন</p>
-        </div>
-    </div>
+    <!-- Admin Panel Trigger (Only for Owner) -->
+    <button id="adminBtn" class="hidden fixed bottom-6 right-6 bg-gray-900 text-white p-4 rounded-full shadow-2xl hover:bg-black transition">
+        <i class="fas fa-user-shield text-xl"></i>
+    </button>
 
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.x.x/firebase-firestore-compat.js"></script>
-    <script src="app.js"></script>
+    <!-- Firebase SDKs (v10+ Modular) -->
+    <script type="module" src="app.js"></script>
 </body>
 </html>
