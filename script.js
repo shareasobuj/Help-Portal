@@ -4,14 +4,15 @@ import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTim
 
 // ফায়ারবেজ কনফিগ (আপনার প্রজেক্ট সেটিংস থেকে বসান)
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyCZ3x4d_VDdlh1D0uiZHQhJBR_y1qd63GI",
+  authDomain: "help-portal-affdb.firebaseapp.com",
+  databaseURL: "https://help-portal-affdb-default-rtdb.firebaseio.com",
+  projectId: "help-portal-affdb",
+  storageBucket: "help-portal-affdb.firebasestorage.app",
+  messagingSenderId: "658170191843",
+  appId: "1:658170191843:web:c81998a37acffdfe07cad6",
+  measurementId: "G-WHCTK7ZN99"
 };
-
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
