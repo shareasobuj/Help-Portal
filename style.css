@@ -1,1 +1,15 @@
 
+body { font-family: 'SolaimanLipi', Arial, sans-serif; margin: 0; background: #f4f7f6; }
+nav { background: #2c3e50; color: white; padding: 1rem; display: flex; justify-content: space-between; align-items: center; }
+.container { display: flex; min-height: 100vh; }
+aside { width: 250px; background: #34495e; color: white; padding: 20px; }
+aside ul { list-style: none; padding: 0; }
+aside ul li { padding: 12px; cursor: pointer; border-bottom: 1px solid #455a64; }
+aside ul li:hover { background: #1abc9c; }
+main { flex: 1; padding: 30px; }
+.page { display: none; }
+.active { display: block; }
+form { display: flex; flex-direction: column; max-width: 400px; gap: 10px; }
+input, textarea, button { padding: 10px; border-radius: 5px; border: 1px solid #ccc; }
+button { background: #1abc9c; color: white; cursor: pointer; border: none; }
+button:hover { background: #16a085; }
